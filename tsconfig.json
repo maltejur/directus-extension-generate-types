@@ -1,0 +1,11 @@
+{
+  "include": ["./src/**/*", "./vue-shims.d.ts"],
+  "compilerOptions": {
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5",
+    "sourceMap": true,
+    "allowJs": true,
+    "baseUrl": "./src"
+  }
+}

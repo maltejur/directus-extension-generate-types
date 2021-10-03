@@ -1,0 +1,32 @@
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version number
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Bump version
+        run: node .github/scripts/bumpv.js ${{ github.event.inputs.version }}
+      - name: Build package
+        run: yarn build
+      - name: Create release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ github.event.inputs.version }}"
+          prerelease: false
+          title: ${{github.event.inputs.version}}
+          files: |
+            dist/index.js
+      - name: Commit and push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
