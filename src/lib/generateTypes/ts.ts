@@ -15,7 +15,10 @@ export default async function generateTsTypes(api) {
       types.push(`${collectionName}: ${typeName}`);
       return `export type ${typeName} = {
 ${Object.values(collection.fields)
-  .map((x) => `  ${x.field}${x.meta.required ? "" : "?"}: ${getType(x.type)};`)
+  .map(
+    (x) =>
+      `  ${x.field}${x.schema?.is_nullable ? "?" : ""}: ${getType(x.type)};`
+  )
   .join("\n")}
 };`;
     })
