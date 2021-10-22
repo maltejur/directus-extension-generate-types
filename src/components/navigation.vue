@@ -1,9 +1,9 @@
 <template>
-  <v-list large>
+  <v-list nav>
     <v-list-item to="/generate-types/index" class="version">
       <v-list-item-icon><v-icon name="code" /></v-list-item-icon>
       <v-list-item-content>
-        <v-text-overflow class="version" :text="`generate-types ${version}`" />
+        <v-text-overflow class="version" :text="`generate-types v${version}`" />
       </v-list-item-content>
     </v-list-item>
 
