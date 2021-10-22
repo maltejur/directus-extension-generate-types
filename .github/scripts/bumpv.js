@@ -10,5 +10,5 @@ fs.promises
     ...package,
     version: process.argv[2],
   }))
-  .then((package) => JSON.stringify(package, null, 2))
+  .then((package) => JSON.stringify(package, null, 2) + "\n")
   .then((package) => fs.promises.writeFile("package.json", package));
