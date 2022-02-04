@@ -17,15 +17,15 @@
     "build": "directus-extension build"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "9.0.0-rc.95",
-    "@types/prismjs": "^1.16.6",
-    "axios": "^0.21.4",
-    "sass": "^1.42.1",
-    "typescript": "^4.4.3",
+    "@directus/extensions-sdk": "9.5.0",
+    "@types/prismjs": "^1.26.0",
+    "axios": "^0.25.0",
+    "sass": "^1.49.0",
+    "typescript": "^4.5.5",
     "vue": "^2.6.14"
   },
   "dependencies": {
-    "@directus/shared": "^9.0.0-rc.95",
-    "prismjs": "^1.25.0"
+    "@directus/shared": "^9.5.0",
+    "prismjs": "^1.26.0"
   }
 }
