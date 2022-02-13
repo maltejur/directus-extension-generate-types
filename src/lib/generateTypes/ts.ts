@@ -45,7 +45,7 @@ function getType(field: Field) {
   else if (["json", "csv"].includes(field.type)) type = "unknown";
   else type = "string";
   if (field.relation) {
-    type += ` | ${pascalCase(field.relation.collection)}${
+    type += ` & ${pascalCase(field.relation.collection)}${
       field.relation.type === "many" ? "[]" : ""
     }`;
   }
