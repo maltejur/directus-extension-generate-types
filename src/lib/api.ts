@@ -1,9 +1,10 @@
-import type { Collections } from "lib/types";
+import type { Collections, Field } from "lib/types";
 import {
   Collection as DirectusCollection,
-  Field,
+  Relation,
 } from "@directus/shared/types";
 import type { AxiosResponse } from "axios";
+import { warn } from "./console";
 
 export async function getCollections(api) {
   const collectionsRes: AxiosResponse<{ data: DirectusCollection[] }> =
@@ -20,11 +21,32 @@ export async function getCollections(api) {
   const fields = fieldsRes.data.data;
   fields.forEach((field) => {
     if (!collections[field.collection]) {
-      console.warn(`generate-types:
-${field.collection} not found`);
+      warn(`${field.collection} not found`);
       return;
     }
     collections[field.collection].fields.push(field);
+  });
+  const relationsRes: AxiosResponse<{ data: Relation[] }> = await api.get(
+    "/relations?limit=-1"
+  );
+  const relations = relationsRes.data.data;
+  relations.forEach((relation) => {
+    const oneField = collections[relation.meta.one_collection].fields.find(
+      (field) => field.field === relation.meta.one_field
+    );
+    const manyField = collections[relation.meta.many_collection].fields.find(
+      (field) => field.field === relation.meta.many_field
+    );
+    if (oneField)
+      oneField.relation = {
+        type: "many",
+        collection: relation.meta.many_collection,
+      };
+    if (manyField)
+      manyField.relation = {
+        type: "one",
+        collection: relation.meta.one_collection,
+      };
   });
   return collections;
 }
