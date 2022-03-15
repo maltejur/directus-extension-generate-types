@@ -11,7 +11,7 @@
 - TypeScript
 - Python Type Hints
 - OpenAPI Specification
-- More soon
+- More soon™
 
 ## How to install
 
