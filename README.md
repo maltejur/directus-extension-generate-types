@@ -3,8 +3,7 @@
   <h4 align="center">Create types for your directus project in your favourite language.</h4>
 </p>
 
-![Screenshot_20211003_182220](https://user-images.githubusercontent.com/48161361/135762817-2b620041-5994-47c9-875e-5ca31d8293cc.png)
-
+![Screenshot_20220519_135945](https://user-images.githubusercontent.com/48161361/169288405-c1589f58-d6e4-4a91-91d6-fc9008c8dd97.png)
 
 ### Currently supports
 
