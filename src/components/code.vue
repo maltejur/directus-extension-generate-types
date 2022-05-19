@@ -1,6 +1,13 @@
 <template>
   <div class="code">
-    <i>{{ downloadName }}</i>
+    <i>
+      {{ downloadName }}
+      <v-progress-circular
+        indeterminate
+        v-if="loading && rendered"
+        class="inline-progress"
+      />
+    </i>
     <div class="generate-types-textarea">
       <pre v-html="rendered" v-if="rendered" />
       <v-progress-circular indeterminate v-else />
@@ -28,6 +35,7 @@ export default {
     value: String,
     language: String,
     downloadName: String,
+    loading: Boolean,
   },
   computed: {
     rendered() {
@@ -80,6 +88,13 @@ export default {
 .downloadBtn {
   align-self: flex-end;
   margin-top: 15px;
+}
+
+.inline-progress {
+  --v-progress-circular-size: 1em;
+  display: inline;
+  /* vertical-align: sub; */
+  margin: 0 5px;
 }
 </style>
 

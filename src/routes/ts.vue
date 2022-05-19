@@ -9,6 +9,7 @@
         :value="types"
         language="typescript"
         downloadName="types.ts"
+        :loading="loading"
       />
       <div class="div">
         <p>
@@ -16,6 +17,18 @@
           <code>types.ts</code> like this:
         </p>
         <CodeComponent :value="exampleCode" language="typescript" />
+        <h3 class="type-title">Options</h3>
+        <v-checkbox v-model="useIntersectionTypes" @click="generateTypes">
+          <span>
+            Use Intersection Types (<code>&</code>) instead of Union Types
+            (<code>|</code>) for relational fields.
+            <a
+              href="https://github.com/maltejur/directus-extension-generate-types/pull/3#issuecomment-1037243032"
+            >
+              Learn more
+            </a>
+          </span>
+        </v-checkbox>
       </div>
     </div>
   </private-view>
@@ -38,10 +51,28 @@ export default {
 import { CustomDirectusTypes } from "./types";
 
 const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
+      useIntersectionTypes:
+        localStorage.getItem(
+          "directus-extension-generate-types-use-intersection-types"
+        ) === "true",
+      loading: false,
     };
   },
+  methods: {
+    generateTypes() {
+      console.log(window.localStorage);
+      localStorage.setItem(
+        "directus-extension-generate-types-use-intersection-types",
+        this.useIntersectionTypes
+      );
+      generateTsTypes(this.api, this.useIntersectionTypes).then((types) => {
+        this.types = types;
+        this.loading = false;
+      });
+    },
+  },
   mounted() {
-    generateTsTypes(this.api).then((types) => (this.types = types));
+    this.generateTypes();
   },
 };
 </script>
@@ -63,5 +94,19 @@ code {
   font-size: 0.9em;
   padding: 3px;
   border-radius: 4px;
+}
+
+.type-title {
+  margin: 10px 0;
+}
+
+a {
+  color: var(--primary-110);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 </style>

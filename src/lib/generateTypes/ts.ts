@@ -1,7 +1,10 @@
 import { Field } from "lib/types";
 import { getCollections } from "../api";
 
-export default async function generateTsTypes(api) {
+export default async function generateTsTypes(
+  api,
+  useIntersectionTypes = false
+) {
   const collections = await getCollections(api);
   let ret = "";
   const types = [];
@@ -14,7 +17,7 @@ export default async function generateTsTypes(api) {
     collection.fields.forEach((field) => {
       ret += `  ${field.field}${
         field.schema?.is_nullable ? "?" : ""
-      }: ${getType(field)};\n`;
+      }: ${getType(field, useIntersectionTypes)};\n`;
     });
     ret += "};\n\n";
   });
@@ -37,7 +40,7 @@ function pascalCase(str: string) {
     .join("");
 }
 
-function getType(field: Field) {
+function getType(field: Field, useIntersectionTypes = false) {
   let type: string;
   if (["integer", "bigInteger", "float", "decimal"].includes(field.type))
     type = "number";
@@ -45,9 +48,9 @@ function getType(field: Field) {
   else if (["json", "csv"].includes(field.type)) type = "unknown";
   else type = "string";
   if (field.relation) {
-    type += ` & ${pascalCase(field.relation.collection)}${
-      field.relation.type === "many" ? "[]" : ""
-    }`;
+    type += ` ${useIntersectionTypes ? "&" : "|"} ${pascalCase(
+      field.relation.collection
+    )}${field.relation.type === "many" ? "[]" : ""}`;
   }
   return type;
 }
