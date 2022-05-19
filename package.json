@@ -1,6 +1,7 @@
 {
   "name": "directus-extension-generate-types",
   "version": "0.2.0",
+  "license": "AGPL-3.0",
   "keywords": [
     "directus",
     "directus-extension",
