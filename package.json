@@ -1,7 +1,7 @@
 {
   "name": "directus-extension-generate-types",
   "version": "0.2.1",
-  "license": "AGPL-3.0",
+  "license": "MPL-2.0",
   "keywords": [
     "directus",
     "directus-extension",
@@ -18,15 +18,15 @@
     "build": "directus-extension build"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "9.10.0",
+    "@directus/extensions-sdk": "9.13.0",
     "@types/prismjs": "^1.26.0",
     "axios": "^0.27.2",
-    "sass": "^1.51.0",
-    "typescript": "^4.6.4",
-    "vue": "^3.2.34"
+    "sass": "^1.53.0",
+    "typescript": "^4.7.4",
+    "vue": "^3.2.37"
   },
   "dependencies": {
-    "@directus/shared": "^9.10.0",
+    "@directus/shared": "^9.13.0",
     "prismjs": "^1.28.0"
   }
 }
