@@ -31,10 +31,10 @@ export async function getCollections(api) {
   );
   const relations = relationsRes.data.data;
   relations.forEach((relation) => {
-    const oneField = collections[relation.meta.one_collection].fields.find(
+    const oneField = collections[relation.meta.one_collection]?.fields.find(
       (field) => field.field === relation.meta.one_field
     );
-    const manyField = collections[relation.meta.many_collection].fields.find(
+    const manyField = collections[relation.meta.many_collection]?.fields.find(
       (field) => field.field === relation.meta.many_field
     );
     if (oneField)

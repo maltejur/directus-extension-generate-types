@@ -48,9 +48,9 @@ function getType(field: Field, useIntersectionTypes = false) {
   else if (["json", "csv"].includes(field.type)) type = "unknown";
   else type = "string";
   if (field.relation) {
-    type += ` ${useIntersectionTypes ? "&" : "|"} ${pascalCase(
-      field.relation.collection
-    )}${field.relation.type === "many" ? "[]" : ""}`;
+    type += ` ${useIntersectionTypes ? "&" : "|"} ${
+      field.relation.collection ? pascalCase(field.relation.collection) : "any"
+    }${field.relation.type === "many" ? "[]" : ""}`;
   }
   return type;
 }
