@@ -15,9 +15,12 @@ export default async function generateTsTypes(
     types.push(`${collectionName}: ${typeName}`);
     ret += `export type ${typeName} = {\n`;
     collection.fields.forEach((field) => {
-      ret += `  ${field.field}${
-        field.schema?.is_nullable ? "?" : ""
-      }: ${getType(field, useIntersectionTypes)};\n`;
+      ret += `  ${
+        field.field.includes("-") ? `"${field.field}"` : field.field
+      }${field.schema?.is_nullable ? "?" : ""}: ${getType(
+        field,
+        useIntersectionTypes
+      )};\n`;
     });
     ret += "};\n\n";
   });
@@ -36,6 +39,7 @@ function pascalCase(str: string) {
   return str
     .split(" ")
     .flatMap((x) => x.split("_"))
+    .flatMap((y) => y.split("-"))
     .map((x) => x.charAt(0).toUpperCase() + x.slice(1))
     .join("");
 }
