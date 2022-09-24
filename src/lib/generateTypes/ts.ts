@@ -15,12 +15,14 @@ export default async function generateTsTypes(
     types.push(`${collectionName}: ${typeName}`);
     ret += `export type ${typeName} = {\n`;
     collection.fields.forEach((field) => {
-      ret += `  ${
-        field.field.includes("-") ? `"${field.field}"` : field.field
-      }${field.schema?.is_nullable ? "?" : ""}: ${getType(
-        field,
-        useIntersectionTypes
-      )};\n`;
+      let fieldName = field.field;
+      if (fieldName.includes("-"))
+        fieldName = `"${fieldName}"`;
+      ret += `  ${field.field.includes("-") ? `"${fieldName}"` : fieldName
+        }${field.schema?.is_nullable ? "?" : ""}: ${getType(
+          field,
+          useIntersectionTypes
+        )};\n`;
     });
     ret += "};\n\n";
   });
@@ -52,9 +54,8 @@ function getType(field: Field, useIntersectionTypes = false) {
   else if (["json", "csv"].includes(field.type)) type = "unknown";
   else type = "string";
   if (field.relation) {
-    type += ` ${useIntersectionTypes ? "&" : "|"} ${
-      field.relation.collection ? pascalCase(field.relation.collection) : "any"
-    }${field.relation.type === "many" ? "[]" : ""}`;
+    type += ` ${useIntersectionTypes ? "&" : "|"} ${field.relation.collection ? pascalCase(field.relation.collection) : "any"
+      }${field.relation.type === "many" ? "[]" : ""}`;
   }
   return type;
 }
