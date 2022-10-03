@@ -19,15 +19,15 @@
     "dev": "directus-extension build --watch"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "9.13.0",
+    "@directus/extensions-sdk": "9.18.1",
     "@types/prismjs": "^1.26.0",
     "axios": "^0.27.2",
-    "sass": "^1.53.0",
-    "typescript": "^4.7.4",
-    "vue": "^3.2.37"
+    "sass": "^1.55.0",
+    "typescript": "^4.8.4",
+    "vue": "^3.2.40"
   },
   "dependencies": {
-    "@directus/shared": "^9.13.0",
-    "prismjs": "^1.28.0"
+    "@directus/shared": "^9.18.1",
+    "prismjs": "^1.29.0"
   }
 }
