@@ -15,6 +15,7 @@ export default async function generateTsTypes(
     types.push(`${collectionName}: ${typeName}`);
     ret += `export type ${typeName} = {\n`;
     collection.fields.forEach((field) => {
+      if (field.meta?.interface?.startsWith("presentation-")) return;
       ret += `  ${
         field.field.includes("-") ? `"${field.field}"` : field.field
       }${field.schema?.is_nullable ? "?" : ""}: ${getType(
