@@ -26,6 +26,9 @@ export async function getCollections(api) {
     }
     collections[field.collection].fields.push(field);
   });
+  Object.keys(collections).forEach((key) => {
+    if (collections[key].fields.length === 0) delete collections[key];
+  });
   const relationsRes: AxiosResponse<{ data: Relation[] }> = await api.get(
     "/relations?limit=-1"
   );
