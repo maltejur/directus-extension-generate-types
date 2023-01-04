@@ -11,21 +11,25 @@ export async function getCollections(api) {
     await api.get("/collections?limit=-1");
   const rawCollections = collectionsRes.data.data;
   const collections: Collections = {};
-  rawCollections.forEach(
-    (collection) =>
-      (collections[collection.collection] = { ...collection, fields: [] })
-  );
+  rawCollections
+    .sort((a, b) => a.collection.localeCompare(b.collection))
+    .forEach(
+      (collection) =>
+        (collections[collection.collection] = { ...collection, fields: [] })
+    );
   const fieldsRes: AxiosResponse<{ data: Field[] }> = await api.get(
     "/fields?limit=-1"
   );
   const fields = fieldsRes.data.data;
-  fields.forEach((field) => {
-    if (!collections[field.collection]) {
-      warn(`${field.collection} not found`);
-      return;
-    }
-    collections[field.collection].fields.push(field);
-  });
+  fields
+    .sort((a, b) => a.field.localeCompare(b.field))
+    .forEach((field) => {
+      if (!collections[field.collection]) {
+        warn(`${field.collection} not found`);
+        return;
+      }
+      collections[field.collection].fields.push(field);
+    });
   Object.keys(collections).forEach((key) => {
     if (collections[key].fields.length === 0) delete collections[key];
   });
