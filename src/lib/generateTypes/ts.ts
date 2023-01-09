@@ -18,7 +18,7 @@ export default async function generateTsTypes(
       if (field.meta?.interface?.startsWith("presentation-")) return;
       ret += `  ${
         field.field.includes("-") ? `"${field.field}"` : field.field
-      }${field.schema?.is_nullable ? "?" : ""}: ${getType(
+      }${field.relation || field.schema?.is_nullable ? "?" : ""}: ${getType(
         field,
         useIntersectionTypes
       )};\n`;
