@@ -38,4 +38,7 @@ export default {
     },
   ],
   hidden: false,
+  preRegisterCheck(user) {
+    return user.role.admin_access;
+  },
 } as ModuleConfig;
