@@ -21,7 +21,8 @@ SECRET="_"
 ADMIN_EMAIL="admin@example.com"
 ADMIN_PASSWORD="admin"
 EOF
-  npx directus bootstrap
+  yarn add directus
+  yarn directus bootstrap
   mkdir -p extensions/modules/generate-types
   ln -s ../../../../dist/index.js extensions/modules/generate-types/index.js
   echo
@@ -38,4 +39,4 @@ echo "     email: admin@example.com"
 echo "     pw:    admin"
 echo
 
-npx directus start
+yarn directus start
