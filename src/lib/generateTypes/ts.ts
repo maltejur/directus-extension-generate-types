@@ -59,9 +59,9 @@ function getType(field: Field, useIntersectionTypes = false) {
   }
   if (field.relation || field.schema?.is_nullable) {
     if (field.relation && useIntersectionTypes) {
-      type = `(${type}) | null | undefined`;
+      type = `(${type}) | null`;
     } else {
-      type += ` | null | undefined`;
+      type += ` | null`;
     }
   }
   return type;
