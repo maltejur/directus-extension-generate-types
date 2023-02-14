@@ -55,7 +55,11 @@ function getType(field: Field, useIntersectionTypes = false) {
   if (field.relation) {
     type += ` ${useIntersectionTypes ? "&" : "|"} ${
       field.relation.collection ? pascalCase(field.relation.collection) : "any"
-    }${field.relation.type === "many" ? "[]" : ""}`;
+    }`;
+    
+    if (field.relation.type === "many") {
+      type = `(${type})[]`;
+    }
   }
   if (field.schema?.is_nullable) {
     if (field.relation && useIntersectionTypes) {
