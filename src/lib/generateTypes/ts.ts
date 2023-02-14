@@ -18,7 +18,7 @@ export default async function generateTsTypes(
       if (field.meta?.interface?.startsWith("presentation-")) return;
       ret += `  ${
         field.field.includes("-") ? `"${field.field}"` : field.field
-      }${field.schema?.is_nullable ? "?" : ""}: ${getType(
+      }${field.relation || field.schema?.is_nullable ? "?" : ""}: ${getType(
         field,
         useIntersectionTypes
       )};\n`;
@@ -57,7 +57,7 @@ function getType(field: Field, useIntersectionTypes = false) {
       field.relation.collection ? pascalCase(field.relation.collection) : "any"
     }${field.relation.type === "many" ? "[]" : ""}`;
   }
-  if (field.schema?.is_nullable) {
+  if (field.relation || field.schema?.is_nullable) {
     if (field.relation && useIntersectionTypes) {
       type = `(${type}) | null`;
     } else {
