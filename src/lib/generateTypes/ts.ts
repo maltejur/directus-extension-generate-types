@@ -16,12 +16,12 @@ export default async function generateTsTypes(
     ret += `export type ${typeName} = {\n`;
     collection.fields.forEach((field) => {
       if (field.meta?.interface?.startsWith("presentation-")) return;
-      ret += `  ${
-        field.field.includes("-") ? `"${field.field}"` : field.field
-      }${field.relation || field.schema?.is_nullable ? "?" : ""}: ${getType(
-        field,
-        useIntersectionTypes
-      )};\n`;
+      ret += "  ";
+      ret += field.field.includes("-") ? `"${field.field}"` : field.field;
+      if (field.relation || field.schema?.is_nullable) ret += "?";
+      ret += ": ";
+      ret += getType(field, useIntersectionTypes);
+      ret += ";\n";
     });
     ret += "};\n\n";
   });
@@ -47,15 +47,21 @@ function pascalCase(str: string) {
 
 function getType(field: Field, useIntersectionTypes = false) {
   let type: string;
-  if (["integer", "bigInteger", "float", "decimal"].includes(field.type))
-    type = "number";
-  else if (["boolean"].includes(field.type)) type = "boolean";
-  else if (["json", "csv"].includes(field.type)) type = "unknown";
-  else type = "string";
+  if (field.relation && field.relation.type === "many") {
+    type = "any[]";
+  } else {
+    if (["integer", "bigInteger", "float", "decimal"].includes(field.type))
+      type = "number";
+    else if (["boolean"].includes(field.type)) type = "boolean";
+    else if (["json", "csv"].includes(field.type)) type = "unknown";
+    else type = "string";
+  }
   if (field.relation) {
-    type += ` ${useIntersectionTypes ? "&" : "|"} ${
-      field.relation.collection ? pascalCase(field.relation.collection) : "any"
-    }${field.relation.type === "many" ? "[]" : ""}`;
+    type += useIntersectionTypes ? " & " : " | ";
+    type += field.relation.collection
+      ? pascalCase(field.relation.collection)
+      : "any";
+    if (field.relation.type === "many") type += "[]";
   }
   if (field.relation || field.schema?.is_nullable) {
     if (field.relation && useIntersectionTypes) {
