@@ -15,7 +15,7 @@
     "hidden": false
   },
   "scripts": {
-    "build": "directus-extension build --no-minify",
+    "build": "directus-extension build",
     "watch": "directus-extension build --watch",
     "dev": "./dev.sh"
   },
