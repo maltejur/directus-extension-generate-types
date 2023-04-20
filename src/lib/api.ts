@@ -1,4 +1,4 @@
-import type { Collections, Field } from "lib/types";
+import type { Collections, Field } from "../lib/types";
 import {
   Collection as DirectusCollection,
   Relation,
@@ -38,22 +38,30 @@ export async function getCollections(api) {
   );
   const relations = relationsRes.data.data;
   relations.forEach((relation) => {
-    const oneField = collections[relation.meta.one_collection]?.fields.find(
-      (field) => field.field === relation.meta.one_field
-    );
-    const manyField = collections[relation.meta.many_collection]?.fields.find(
-      (field) => field.field === relation.meta.many_field
-    );
-    if (oneField)
-      oneField.relation = {
-        type: "many",
-        collection: relation.meta.many_collection,
-      };
-    if (manyField)
-      manyField.relation = {
-        type: "one",
-        collection: relation.meta.one_collection,
-      };
+    if (relation !== null) {
+      if (relation?.meta?.one_collection) {
+        const oneField = collections[relation.meta.one_collection]?.fields.find(
+          (field) => field.field === relation?.meta?.one_field
+          );
+          if (oneField) {
+            oneField.relation = {
+              type: "many",
+              collection: relation.meta.many_collection,
+            };
+          }
+        }
+        if (relation?.meta?.many_collection) {
+      const manyField = collections[relation.meta.many_collection]?.fields.find(
+        (field) => field.field === relation?.meta?.many_field
+        );
+        if (manyField && relation?.meta?.one_collection) {
+          manyField.relation = {
+            type: "one",
+            collection: relation?.meta?.one_collection,
+          };
+        }
+      }
+    }
   });
   return collections;
 }

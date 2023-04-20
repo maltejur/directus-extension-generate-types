@@ -1,11 +1,8 @@
 {
+  "extends": "@tsconfig/nuxt/tsconfig.json",
   "include": ["./src/**/*", "./vue-shims.d.ts"],
   "compilerOptions": {
-    "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es5",
     "sourceMap": true,
-    "allowJs": true,
-    "baseUrl": "./src"
+    "noEmit": true,
   }
 }

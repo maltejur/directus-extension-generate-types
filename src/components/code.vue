@@ -8,7 +8,7 @@
         class="inline-progress"
       />
     </i>
-    
+
     <div class="generate-types-textarea">
       <pre v-html="rendered" v-if="rendered" />
       <v-progress-circular indeterminate v-else />
@@ -28,7 +28,7 @@
         />
         {{ t('copy') }}
       </v-button>
-      
+
       <v-button
         class="downloadBtn"
         v-on:click="downloadTypes"
@@ -48,10 +48,10 @@
 
 
 <script lang="ts">
-import Prism from "prismjs";
-import download from "lib/download";
+import * as Prism from "prismjs";
+import download from "../lib/download";
 import { useStores } from '@directus/extensions-sdk';
-import { useClipboard } from "utils/use-clipboard";
+import { useClipboard } from "../utils/use-clipboard";
 import { useI18n } from 'vue-i18n';
 
 export default {
@@ -77,7 +77,7 @@ export default {
   },
   setup(props) {
     const { useNotificationsStore } = useStores();
-    const notificationStore = useNotificationsStore();	
+    const notificationStore = useNotificationsStore();
     const { t } = useI18n();
     const { isCopySupported, copyToClipboard } = useClipboard();
 

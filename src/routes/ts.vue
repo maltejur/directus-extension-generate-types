@@ -37,8 +37,8 @@
 <script lang="ts">
 import NavbarComponent from "../components/navigation.vue";
 import CodeComponent from "../components/code.vue";
-import generateTsTypes from "lib/generateTypes/ts";
-import languages from "lib/languages";
+import generateTsTypes from "../lib/generateTypes/ts";
+import languages from "../lib/languages";
 
 export default {
   components: { NavbarComponent, CodeComponent },

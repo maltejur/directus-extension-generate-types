@@ -1,4 +1,4 @@
-import { Field } from "lib/types";
+import { Field } from "../types";
 import { getCollections } from "../api";
 
 export default async function generateTsTypes(

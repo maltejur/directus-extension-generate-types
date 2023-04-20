@@ -1,6 +1,6 @@
 {
   "name": "directus-extension-generate-types",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "license": "MPL-2.0",
   "keywords": [
     "directus",
@@ -11,24 +11,27 @@
     "type": "module",
     "path": "dist/index.js",
     "source": "src/index.ts",
-    "host": "^9.0.0-rc.95",
+    "host": "^9.24.0",
     "hidden": false
   },
   "scripts": {
-    "build": "directus-extension build",
+    "build": "directus-extension build --no-minify",
     "watch": "directus-extension build --watch",
     "dev": "./dev.sh"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "9.18.1",
+    "@directus/extensions-sdk": "9.24.0",
+    "@nuxt/types": "^2.16.3",
+    "@tsconfig/nuxt": "^1.0.0",
+    "@types/node": "^18.15.12",
     "@types/prismjs": "^1.26.0",
-    "axios": "^0.27.2",
-    "sass": "^1.55.0",
-    "typescript": "^4.8.4",
-    "vue": "^3.2.40"
+    "axios": "^1.3.6",
+    "sass": "^1.62.0",
+    "typescript": "^5.0.4",
+    "vue": "^3.2.47"
   },
   "dependencies": {
-    "@directus/shared": "^9.18.1",
+    "@directus/shared": "^9.24.0",
     "prismjs": "^1.29.0"
   }
 }
