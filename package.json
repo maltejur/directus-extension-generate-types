@@ -11,7 +11,7 @@
     "type": "module",
     "path": "dist/index.js",
     "source": "src/index.ts",
-    "host": "^9.24.0",
+    "host": "^9.0.0-rc.95",
     "hidden": false
   },
   "scripts": {
