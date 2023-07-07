@@ -23,14 +23,12 @@ ADMIN_PASSWORD="admin"
 EOF
   yarn add directus
   yarn directus bootstrap
-  mkdir -p extensions/modules/generate-types
-  ln -s ../../../../dist/index.js extensions/modules/generate-types/index.js
   echo
 fi
 
-echo "-> Building extension"
+echo "-> Building and linking extension"
 
-(cd .. && yarn build)
+(cd .. && yarn build && yarn directus-extension link dev/extensions)
 
 echo
 echo "-> Starting dev server"

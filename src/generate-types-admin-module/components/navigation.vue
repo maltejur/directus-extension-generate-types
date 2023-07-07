@@ -26,7 +26,7 @@
 
 <script language="ts">
 import languages from "../lib/languages.ts";
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 
 export default {
   data: () => ({
