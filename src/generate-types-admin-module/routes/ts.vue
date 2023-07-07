@@ -37,7 +37,8 @@
 <script lang="ts">
 import NavbarComponent from "../components/navigation.vue";
 import CodeComponent from "../components/code.vue";
-import generateTsTypes from "../lib/generateTypes/ts";
+import { getCollections } from "../lib/api";
+import generateTsTypes from "../../lib/generate-types/ts";
 import languages from "../lib/languages";
 
 export default {
@@ -65,7 +66,7 @@ const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
         "directus-extension-generate-types-use-intersection-types",
         this.useIntersectionTypes
       );
-      generateTsTypes(this.api, this.useIntersectionTypes).then((types) => {
+      generateTsTypes(getCollections(this.api), this.useIntersectionTypes).then((types) => {
         this.types = types;
         this.loading = false;
       });

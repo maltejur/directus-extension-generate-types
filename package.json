@@ -21,8 +21,13 @@
 		"entries": [
 			{
 				"type": "module",
-				"name": "generate-types-admin-module",
-				"source": "src/generate-types-admin-module/index.ts"
+				"name": "extension-module.admin",
+				"source": "src/extension-module.admin/index.ts"
+			},
+			{
+				"type": "hook",
+				"name": "extension-hook.sync-ts-files",
+				"source": "src/extension-hook.sync-ts-files/index.ts"
 			}
 		]
 	},

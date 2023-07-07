@@ -13,7 +13,8 @@
 <script lang="ts">
 import NavbarComponent from "../components/navigation.vue";
 import CodeComponent from "../components/code.vue";
-import generatePyTypes from "../lib/generateTypes/py";
+import { getCollections } from "../lib/api";
+import generatePyTypes from "../../lib/generate-types/py";
 import languages from "../lib/languages";
 
 export default {
@@ -26,7 +27,7 @@ export default {
     };
   },
   mounted() {
-    generatePyTypes(this.api).then((types) => (this.types = types));
+    generatePyTypes(getCollections(this.api)).then((types) => (this.types = types));
   },
 };
 </script>

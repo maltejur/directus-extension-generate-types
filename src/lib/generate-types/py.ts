@@ -1,9 +1,12 @@
-import { getCollections } from "../api";
+import { Collections } from "../types";
 
-export default async function generatePyTypes(api) {
-  const collections = await getCollections(api);
+export default async function generatePyTypes(collections: Collections | Promise<Collections>) {
   let ret = "";
   const types = [];
+
+  if (collections instanceof Promise) {
+    collections = await collections;
+  }
 
   ret += `from typing import TypedDict\n\n`;
 
