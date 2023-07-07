@@ -2,6 +2,18 @@
   "name": "directus-extension-generate-types",
   "version": "0.4.2",
   "license": "MPL-2.0",
+  "author": {
+    "name": "Malte Jürgens",
+    "email": "maltejur@dismail.de",
+    "url": "https://github.com/maltejur"
+  },
+  "contributors": [
+    {
+      "name": "Jean Claveau",
+      "email": "jean.claveau@gmail.com",
+      "url": "https://github.com/jclaveau"
+    }
+  ],
 	"type": "module",
 	"description": "Generate types for use in TypeScript, Python or for OpenAPI usage",
 	"icon": "extension",
