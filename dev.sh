@@ -10,7 +10,7 @@ else
 {
   "name": "directus-extension-generate-types-dev",
   "scripts": {
-    "dev:nodemon": "nodemon --exec 'directus start' --watch extensions"
+    "dev:nodemon": "nodemon --exec 'directus start' --watch extensions/directus-extension-generate-types/dist"
   }
 }
 EOF
@@ -35,7 +35,8 @@ fi
 
 echo "-> Building and linking extension"
 
-(cd .. && yarn dev & yarn directus-extension link dev/extensions)
+(cd .. && yarn directus-extension link ./dev/extensions)
+(cd .. && yarn dev &)
 
 echo
 echo "-> Starting dev server"
