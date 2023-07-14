@@ -2,30 +2,62 @@
   "name": "directus-extension-generate-types",
   "version": "0.4.2",
   "license": "MPL-2.0",
+  "author": {
+    "name": "Malte Jürgens",
+    "email": "maltejur@dismail.de",
+    "url": "https://github.com/maltejur"
+  },
+  "contributors": [
+    {
+      "name": "Jean Claveau",
+      "email": "jean.claveau@gmail.com",
+      "url": "https://github.com/jclaveau"
+    }
+  ],
+  "type": "module",
+  "description": "Generate types for use in TypeScript, Python or for OpenAPI usage",
+  "icon": "extension",
   "keywords": [
     "directus",
     "directus-extension",
-    "directus-custom-module"
+    "directus-custom-bundle"
   ],
   "directus:extension": {
-    "type": "module",
-    "path": "dist/index.js",
-    "source": "src/index.ts",
-    "host": "^9.0.0-rc.95",
-    "hidden": false
+    "type": "bundle",
+    "path": {
+      "app": "dist/app.js",
+      "api": "dist/api.js"
+    },
+    "host": "^10.1.5",
+    "hidden": false,
+    "entries": [
+      {
+        "type": "module",
+        "name": "extension-module.admin",
+        "source": "src/extension-module.admin/index.ts"
+      },
+      {
+        "type": "hook",
+        "name": "extension-hook.sync-ts-files",
+        "source": "src/extension-hook.sync-ts-files/index.ts"
+      }
+    ]
   },
   "scripts": {
     "build": "directus-extension build",
-    "watch": "directus-extension build --watch",
-    "dev": "./dev.sh"
+    "dev": "directus-extension build -w --no-minify",
+    "dev:project": "sh ./dev.sh",
+    "link": "directus-extension link",
+    "add": "directus-extension add"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "9.18.1",
+    "@directus/extensions-sdk": "10.1.5",
+    "@types/node": "^20.4.0",
     "@types/prismjs": "^1.26.0",
     "axios": "^0.27.2",
     "sass": "^1.55.0",
-    "typescript": "^4.8.4",
-    "vue": "^3.2.40"
+    "typescript": "^5.1.6",
+    "vue": "^3.3.4"
   },
   "dependencies": {
     "@directus/shared": "^9.18.1",

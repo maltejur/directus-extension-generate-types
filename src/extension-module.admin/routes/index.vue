@@ -37,7 +37,7 @@
 
 <script language="ts">
 import NavbarComponent from "../components/navigation.vue";
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 
 export default {
   components: { NavbarComponent },

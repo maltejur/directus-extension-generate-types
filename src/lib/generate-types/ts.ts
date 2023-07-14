@@ -1,13 +1,15 @@
-import { Field } from "lib/types";
-import { getCollections } from "../api";
+import { Collections, Field } from "../types";
 
 export default async function generateTsTypes(
-  api,
+  collections: Collections | Promise<Collections>,
   useIntersectionTypes = false
 ) {
-  const collections = await getCollections(api);
   let ret = "";
   const types = [];
+
+  if (collections instanceof Promise) {
+    collections = await collections;
+  }
 
   Object.values(collections).forEach((collection) => {
     const collectionName = collection.collection;

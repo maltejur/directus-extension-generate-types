@@ -42,9 +42,9 @@
 
 <script lang="ts">
 import Prism from "prismjs";
-import download from "lib/download";
+import download from "../lib/download";
 import { useStores } from "@directus/extensions-sdk";
-import { useClipboard } from "utils/use-clipboard";
+import { useClipboard } from "../utils/use-clipboard";
 import { useI18n } from "vue-i18n";
 
 export default {

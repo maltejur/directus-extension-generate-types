@@ -18,8 +18,8 @@
 <script lang="ts">
 import NavbarComponent from "../components/navigation.vue";
 import CodeComponent from "../components/code.vue";
-import generateOasTypes from "lib/generateTypes/oas";
-import languages from "lib/languages";
+import generateOasTypes from "../../lib/generate-types/oas";
+import languages from "../lib/languages";
 
 export default {
   components: { NavbarComponent, CodeComponent },

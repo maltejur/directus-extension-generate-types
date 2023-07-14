@@ -1,15 +1,11 @@
-import type { Collections, Field } from "lib/types";
-import {
-  Collection as DirectusCollection,
-  Relation,
-} from "@directus/shared/types";
-import type { AxiosResponse } from "axios";
-import { warn } from "./console";
+import type { Collections } from "../types";
+import { warn } from "../console";
 
-export async function getCollections(api) {
-  const collectionsRes: AxiosResponse<{ data: DirectusCollection[] }> =
-    await api.get("/collections?limit=-1");
-  const rawCollections = collectionsRes.data.data;
+export async function gatherCollectionsData(
+  rawCollections,
+  rawFields,
+  rawRelations
+) {
   const collections: Collections = {};
   rawCollections
     .sort((a, b) => a.collection.localeCompare(b.collection))
@@ -17,11 +13,8 @@ export async function getCollections(api) {
       (collection) =>
         (collections[collection.collection] = { ...collection, fields: [] })
     );
-  const fieldsRes: AxiosResponse<{ data: Field[] }> = await api.get(
-    "/fields?limit=-1"
-  );
-  const fields = fieldsRes.data.data;
-  fields
+
+  rawFields
     .sort((a, b) => a.field.localeCompare(b.field))
     .forEach((field) => {
       if (!collections[field.collection]) {
@@ -30,14 +23,12 @@ export async function getCollections(api) {
       }
       collections[field.collection].fields.push(field);
     });
+
   Object.keys(collections).forEach((key) => {
     if (collections[key].fields.length === 0) delete collections[key];
   });
-  const relationsRes: AxiosResponse<{ data: Relation[] }> = await api.get(
-    "/relations?limit=-1"
-  );
-  const relations = relationsRes.data.data;
-  relations.forEach((relation) => {
+
+  rawRelations.forEach((relation) => {
     const oneField = collections[relation.meta.one_collection]?.fields.find(
       (field) => field.field === relation.meta.one_field
     );
@@ -55,5 +46,6 @@ export async function getCollections(api) {
         collection: relation.meta.one_collection,
       };
   });
+
   return collections;
 }
