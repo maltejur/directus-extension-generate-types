@@ -8,27 +8,22 @@
         class="inline-progress"
       />
     </i>
-    
+
     <div class="generate-types-textarea">
       <pre v-html="rendered" v-if="rendered" />
       <v-progress-circular indeterminate v-else />
     </div>
 
-
     <div class="buttonRow">
-      <v-button
-        class="copyBtn"
-        v-if="isCopySupported"
-        @click="copyValue"
-      >
+      <v-button class="copyBtn" v-if="isCopySupported" @click="copyValue">
         <v-icon
           name="content_copy"
           style="margin-right: 8px"
           :disabled="!types"
         />
-        {{ t('copy') }}
+        {{ t("copy") }}
       </v-button>
-      
+
       <v-button
         class="downloadBtn"
         v-on:click="downloadTypes"
@@ -39,20 +34,18 @@
           style="margin-right: 8px"
           :disabled="!types"
         />
-        {{ t('download') }}
+        {{ t("download") }}
       </v-button>
     </div>
-
   </div>
 </template>
-
 
 <script lang="ts">
 import Prism from "prismjs";
 import download from "lib/download";
-import { useStores } from '@directus/extensions-sdk';
+import { useStores } from "@directus/extensions-sdk";
 import { useClipboard } from "utils/use-clipboard";
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 
 export default {
   props: {
@@ -77,16 +70,16 @@ export default {
   },
   setup(props) {
     const { useNotificationsStore } = useStores();
-    const notificationStore = useNotificationsStore();	
+    const notificationStore = useNotificationsStore();
     const { t } = useI18n();
     const { isCopySupported, copyToClipboard } = useClipboard();
 
     async function copyValue() {
       await copyToClipboard(props.value, notificationStore);
-    };
+    }
 
-    return { isCopySupported, copyValue, t }
-  }
+    return { isCopySupported, copyValue, t };
+  },
 };
 </script>
 
@@ -128,7 +121,7 @@ export default {
   margin-top: 15px;
 }
 
-.buttonRow>div {
+.buttonRow > div {
   margin-left: 15px;
 }
 
