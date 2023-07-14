@@ -1,8 +1,11 @@
 import type { Collections } from "../types";
 import { warn } from "../console";
 
-export async function gatherCollectionsData(rawCollections, rawFields , rawRelations) {
-
+export async function gatherCollectionsData(
+  rawCollections,
+  rawFields,
+  rawRelations
+) {
   const collections: Collections = {};
   rawCollections
     .sort((a, b) => a.collection.localeCompare(b.collection))
@@ -46,5 +49,3 @@ export async function gatherCollectionsData(rawCollections, rawFields , rawRelat
 
   return collections;
 }
-
-

@@ -66,10 +66,12 @@ const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
         "directus-extension-generate-types-use-intersection-types",
         this.useIntersectionTypes
       );
-      generateTsTypes(getCollections(this.api), this.useIntersectionTypes).then((types) => {
-        this.types = types;
-        this.loading = false;
-      });
+      generateTsTypes(getCollections(this.api), this.useIntersectionTypes).then(
+        (types) => {
+          this.types = types;
+          this.loading = false;
+        }
+      );
     },
   },
   mounted() {

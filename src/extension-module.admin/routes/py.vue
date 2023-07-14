@@ -27,7 +27,9 @@ export default {
     };
   },
   mounted() {
-    generatePyTypes(getCollections(this.api)).then((types) => (this.types = types));
+    generatePyTypes(getCollections(this.api)).then(
+      (types) => (this.types = types)
+    );
   },
 };
 </script>

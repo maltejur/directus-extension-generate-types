@@ -1,4 +1,4 @@
-import { Collections, Field } from '../types';
+import { Collections, Field } from "../types";
 
 export default async function generateTsTypes(
   collections: Collections | Promise<Collections>,

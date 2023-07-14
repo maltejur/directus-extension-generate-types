@@ -7,8 +7,8 @@ import type { AxiosResponse } from "axios";
 import { gatherCollectionsData } from "../../lib/generate-types/utils";
 
 export async function getCollections(api) {
-  const collectionsResponse: AxiosResponse<{ data: DirectusCollection[] }>
-    = await api.get("/collections?limit=-1");
+  const collectionsResponse: AxiosResponse<{ data: DirectusCollection[] }> =
+    await api.get("/collections?limit=-1");
 
   const fieldsResponse: AxiosResponse<{ data: Field[] }> = await api.get(
     "/fields?limit=-1"
@@ -21,7 +21,6 @@ export async function getCollections(api) {
   return gatherCollectionsData(
     collectionsResponse.data.data,
     fieldsResponse.data.data,
-    relationsResponse.data.data,
+    relationsResponse.data.data
   );
 }
-

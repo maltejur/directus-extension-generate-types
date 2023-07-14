@@ -1,6 +1,8 @@
 import { Collections } from "../types";
 
-export default async function generatePyTypes(collections: Collections | Promise<Collections>) {
+export default async function generatePyTypes(
+  collections: Collections | Promise<Collections>
+) {
   let ret = "";
   const types = [];
 
