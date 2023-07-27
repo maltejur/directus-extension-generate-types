@@ -38,6 +38,10 @@ export async function getCollections(api) {
   );
   const relations = relationsRes.data.data;
   relations.forEach((relation) => {
+    if (!relation.meta) {
+      warn(`Relation on field '${relation.field}' in collection '${relation.collection}' has no meta. Maybe missing a relation inside directus_relations table.`);
+      return;
+    }
     const oneField = collections[relation.meta.one_collection]?.fields.find(
       (field) => field.field === relation.meta.one_field
     );
