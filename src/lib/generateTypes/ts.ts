@@ -3,7 +3,8 @@ import { getCollections } from "../api";
 
 export default async function generateTsTypes(
   api,
-  useIntersectionTypes = false
+  useIntersectionTypes = false,
+  sdk11 = true
 ) {
   const collections = await getCollections(api);
   let ret = "";
@@ -12,7 +13,11 @@ export default async function generateTsTypes(
   Object.values(collections).forEach((collection) => {
     const collectionName = collection.collection;
     const typeName = pascalCase(collectionName);
-    types.push(`${collectionName}: ${typeName}`);
+    types.push(
+      sdk11
+        ? `${collectionName}: ${typeName}[]`
+        : `${collectionName}: ${typeName}`
+    );
     ret += `export type ${typeName} = {\n`;
     collection.fields.forEach((field) => {
       if (field.meta?.interface?.startsWith("presentation-")) return;

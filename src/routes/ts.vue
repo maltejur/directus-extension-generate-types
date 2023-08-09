@@ -29,6 +29,11 @@
             </a>
           </span>
         </v-checkbox>
+        <v-checkbox v-model="sdk11" @click="generateTypes">
+          <span>
+            Generate Types for Directus SDK >= v11
+          </span>
+        </v-checkbox>
       </div>
     </div>
   </private-view>
@@ -55,6 +60,10 @@ const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
         localStorage.getItem(
           "directus-extension-generate-types-use-intersection-types"
         ) === "true",
+      sdk11:
+        localStorage.getItem(
+          "directus-extension-generate-types-sdk11"
+        ) !== "false",
       loading: false,
     };
   },
@@ -65,7 +74,11 @@ const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
         "directus-extension-generate-types-use-intersection-types",
         this.useIntersectionTypes
       );
-      generateTsTypes(this.api, this.useIntersectionTypes).then((types) => {
+      localStorage.setItem(
+        "directus-extension-generate-types-sdk11",
+        this.sdk11
+      );
+      generateTsTypes(this.api, this.useIntersectionTypes, this.sdk11).then((types) => {
         this.types = types;
         this.loading = false;
       });
