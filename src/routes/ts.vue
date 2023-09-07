@@ -1,30 +1,25 @@
 <template>
   <private-view title="Types for TypeScript">
-    <template #navigation><NavbarComponent /></template>
+    <template #navigation>
+      <NavbarComponent />
+    </template>
     <template #title-outer:prepend>
       <div v-html="languages['ts'].logo" />
     </template>
     <div class="page">
-      <CodeComponent
-        :value="types"
-        language="typescript"
-        downloadName="types.ts"
-        :loading="loading"
-      />
+      <CodeComponent :value="types" language="typescript" downloadName="types.ts" :loading="loading" />
       <div class="div">
         <p>
           To use these types with the <code>@directus/sdk</code>, include the
           <code>types.ts</code> like this:
         </p>
-        <CodeComponent :value="exampleCode" language="typescript" />
+        <CodeComponent :value="exampleCode()" language="typescript" />
         <h3 class="type-title">Options</h3>
         <v-checkbox v-model="useIntersectionTypes" @click="generateTypes">
           <span>
             Use Intersection Types (<code>&</code>) instead of Union Types
             (<code>|</code>) for relational fields.
-            <a
-              href="https://github.com/maltejur/directus-extension-generate-types/pull/3#issuecomment-1037243032"
-            >
+            <a href="https://github.com/maltejur/directus-extension-generate-types/pull/3#issuecomment-1037243032">
               Learn more
             </a>
           </span>
@@ -49,21 +44,17 @@ export default {
   components: { NavbarComponent, CodeComponent },
   inject: ["api"],
   data() {
+    const useIntersectionTypes = localStorage.getItem(
+      "directus-extension-generate-types-use-intersection-types"
+    ) === "true";
+    const sdk11 = localStorage.getItem(
+      "directus-extension-generate-types-sdk11"
+    ) !== "false";
     return {
       types: "",
       languages,
-      exampleCode: `import { Directus } from "@directus/sdk";
-import { CustomDirectusTypes } from "./types";
-
-const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
-      useIntersectionTypes:
-        localStorage.getItem(
-          "directus-extension-generate-types-use-intersection-types"
-        ) === "true",
-      sdk11:
-        localStorage.getItem(
-          "directus-extension-generate-types-sdk11"
-        ) !== "false",
+      useIntersectionTypes,
+      sdk11,
       loading: false,
     };
   },
@@ -83,6 +74,16 @@ const directus = new Directus<CustomDirectusTypes>("<directus url>");`,
         this.loading = false;
       });
     },
+    exampleCode() {
+      return this.sdk11 ? `import { createDirectus } from "@directus/sdk";
+import { rest } from "@directus/sdk/rest";
+import { CustomDirectusTypes } from "./types";
+
+const client = createDirectus<CustomDirectusTypes>("<directus url>").with(rest());` : `import { Directus } from "@directus/sdk";
+import { CustomDirectusTypes } from "./types";
+
+const directus = new Directus<CustomDirectusTypes>("<directus url>");`
+    }
   },
   mounted() {
     this.generateTypes();
