@@ -13,9 +13,10 @@ export default async function generateTsTypes(
   Object.values(collections).forEach((collection) => {
     const collectionName = collection.collection;
     const typeName = pascalCase(collectionName);
+    const isSingleton = collection.meta?.singleton === true;
     types.push(
       sdk11
-        ? `${collectionName}: ${typeName}[]`
+        ? `${collectionName}: ${typeName}${isSingleton ? "" : "[]"}`
         : `${collectionName}: ${typeName}`
     );
     ret += `export type ${typeName} = {\n`;
