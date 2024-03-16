@@ -32,6 +32,37 @@ export default async function generateTsTypes(
     ret += "};\n\n";
   });
 
+  // Add directus field types
+  // @see https://github.com/directus/directus/blob/main/sdk/src/schema/field.ts
+  ret += `export type FieldMetaConditionType = {
+    // TODO: review
+    hidden: boolean;
+    name: string;
+    options: FieldMetaConditionOptionType;
+    readonly: boolean;
+    required: boolean;
+    // TODO: rules use atomic operators and can nest
+    rule: unknown;
+  };\n`;
+  ret += `export type FieldMetaConditionOptionType = {
+    // TODO: review
+    clear: boolean;
+    font: string;
+    iconLeft?: string;
+    iconRight?: string;
+    masked: boolean;
+    placeholder: string;
+    slug: boolean;
+    softLength?: number;
+    trim: boolean;
+  };\n`;
+
+  ret += `export type FieldMetaTranslationType = {
+    language: string;
+    translation: string;
+  };\n\n`;
+  // END directus field types
+
   ret +=
     "export type CustomDirectusTypes = {\n" +
     types.map((x) => `  ${x};`).join("\n") +
@@ -59,7 +90,7 @@ function getType(field: Field, useIntersectionTypes = false) {
     if (["integer", "bigInteger", "float", "decimal"].includes(field.type))
       type = "number";
     else if (["boolean"].includes(field.type)) type = "boolean";
-    else if (["json", "csv"].includes(field.type)) type = "unknown";
+    else if (["json", "csv"].includes(field.type)) type = getDirectusCollectionTypes(field);
     else type = "string";
   }
   if (field.relation) {
@@ -77,4 +108,155 @@ function getType(field: Field, useIntersectionTypes = false) {
     }
   }
   return type;
+}
+
+
+
+
+/*
+ * Define types for json / csv fields of Directus collection based on SDK11 type definitions
+ * @see https://github.com/directus/directus/tree/main/sdk/src/schema for type definitions
+ * 
+ * last updated: 2023-09-23 (sdk v12.12.0.1)
+*/
+function getDirectusCollectionTypes(field: Field) { 
+  if (!field.collection.startsWith('directus_')) {
+    return "unknown";
+  }
+
+  if (field.collection === 'directus_collections' && field.field === 'item_duplication_fields') {
+    return 'string[]';
+  }
+  
+  if (field.collection === 'directus_collections' && field.field === 'translations') {
+    return '{ language: string; plural: string; singular: string; translation: string;}[]';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'conditions') {
+    return 'FieldMetaConditionType[]';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'display_options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'special') {
+    return 'string[]';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'translations') {
+    return 'FieldMetaTranslationType[] ';
+  }
+  
+  if (field.collection === 'directus_fields' && field.field === 'validation') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_files' && field.field === 'metadata') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_files' && field.field === 'tags') {
+    return 'string[]';
+  }
+  
+  if (field.collection === 'directus_flows' && field.field === 'options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_operations' && field.field === 'options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_panels' && field.field === 'options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_permissions' && field.field === 'fields') {
+    return 'string[]'; // note: sdk has typed it as string, but it must be string[] 
+  }
+  
+  if (field.collection === 'directus_permissions' && field.field === 'permissions') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_permissions' && field.field === 'presets') {
+    return 'Record<string, any> ';
+  }
+  
+  if (field.collection === 'directus_permissions' && field.field === 'validation') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_presets' && field.field === 'filter') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_presets' && field.field === 'layout_options') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_presets' && field.field === 'layout_query') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_relations' && field.field === 'one_allowed_collections') {
+    return 'string';
+  }
+  
+  if (field.collection === 'directus_revisions' && field.field === 'data') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_revisions' && field.field === 'delta') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_roles' && field.field === 'ip_access') {
+    return 'string';
+  }
+  
+  if (field.collection === 'directus_settings' && field.field === 'basemaps') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_settings' && field.field === 'custom_aspect_ratios') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_settings' && field.field === 'module_bar') {
+    return 'Array<Record<string, any>>'; // note: sdk has typed it as json, which isn't valid
+  }
+  
+  if (field.collection === 'directus_settings' && field.field === 'storage_asset_presets') {
+    return '{ fit: string; height: number; width: number; quality: number; key: string; withoutEnlargement: boolean;}[]';
+  }
+  
+  if (field.collection === 'directus_users' && field.field === 'auth_data') {
+    return 'Record<string, any>';
+  }
+  
+  if (field.collection === 'directus_users' && field.field === 'tags') {
+    return 'string[]';
+  }
+  
+  if (field.collection === 'directus_webhooks' && field.field === 'actions') {
+    return 'string | string[]';
+  }
+  
+  if (field.collection === 'directus_webhooks' && field.field === 'collections') {
+    return 'string | string[]';
+  }
+  
+  if (field.collection === 'directus_webhooks' && field.field === 'headers') {
+    return 'Record<string, any>';
+  }
+
+  else { 
+    return "unknown";
+  }
 }
