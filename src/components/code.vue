@@ -42,9 +42,9 @@
 
 <script lang="ts">
 import Prism from "prismjs";
-import download from "lib/download";
+import download from "../lib/download";
 import { useStores } from "@directus/extensions-sdk";
-import { useClipboard } from "utils/use-clipboard";
+import { useClipboard } from "../utils/use-clipboard";
 import { useI18n } from "vue-i18n";
 
 export default {
@@ -101,13 +101,15 @@ export default {
   max-height: 65vh;
   padding: 15px;
   overflow: auto;
-  background-color: var(--background-input);
-  border: var(--border-width) solid var(--border-normal);
-  border-radius: var(--border-radius);
-  transition: border-color var(--fast) var(--transition);
+  background-color: var(--theme--form--field--input--background);
+  border: var(--theme--border-width) solid var(--theme--form--field--input--border-color);
+  border-radius: var(--theme--border-radius);
+  transition: all var(--fast) var(--transition);
+  box-shadow: var(--theme--form--field--input--box-shadow);
 }
 .generate-types-textarea:hover:not(.disabled) {
-  border-color: var(--border-normal-alt);
+  border-color: var(--theme--form--field--input--border-color-hover);
+  box-shadow: var(--theme--form--field--input--box-shadow-hover);
 }
 .generate-types-textarea:focus:not(.disabled),
 .generate-types-textarea:focus-within:not(.disabled) {

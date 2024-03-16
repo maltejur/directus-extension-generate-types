@@ -21,10 +21,10 @@ SECRET="_"
 ADMIN_EMAIL="admin@example.com"
 ADMIN_PASSWORD="admin"
 EOF
-  yarn add directus
+  yarn add directus --ignore-engines
   yarn directus bootstrap
-  mkdir -p extensions/modules/generate-types
-  ln -s ../../../../dist/index.js extensions/modules/generate-types/index.js
+  mkdir -p extensions
+  ln -s ../.. extensions/directus-extension-generate-types
   echo
 fi
 
