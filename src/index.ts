@@ -38,7 +38,7 @@ export default {
     },
   ],
   hidden: false,
-  preRegisterCheck(user) {
-    return user.admin_access;
-  },
+	preRegisterCheck(user: User & { admin_access: boolean }) {
+		return user.admin_access;
+	},
 } as ModuleConfig;
