@@ -39,6 +39,6 @@ export default {
   ],
   hidden: false,
   preRegisterCheck(user) {
-    return user.role.admin_access;
+    return user.role?.admin_access || user.admin_access;
   },
 } as ModuleConfig;
