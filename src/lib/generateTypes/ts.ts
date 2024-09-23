@@ -76,5 +76,8 @@ function getType(field: Field, useIntersectionTypes = false) {
       type += ` | null`;
     }
   }
+  if (field.type === 'alias' && field.schema === null) {
+    type = 'string | undefined';
+  }
   return type;
 }
