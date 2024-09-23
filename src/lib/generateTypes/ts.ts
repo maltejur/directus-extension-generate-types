@@ -25,6 +25,7 @@ export default async function generateTsTypes(
       ret += "  ";
       ret += field.field.includes("-") ? `"${field.field}"` : field.field;
       if (field.schema?.is_nullable) ret += "?";
+      else if (field.type === 'alias' && field.schema === null && field.meta.special.includes('group')) ret += "?";
       ret += ": ";
       ret += getType(field, useIntersectionTypes);
       ret += ";\n";
@@ -75,9 +76,6 @@ function getType(field: Field, useIntersectionTypes = false) {
     } else {
       type += ` | null`;
     }
-  }
-  if (field.type === 'alias' && field.schema === null) {
-    type = 'string | undefined';
   }
   return type;
 }
