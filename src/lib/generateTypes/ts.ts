@@ -69,6 +69,20 @@ function getType(field: Field, useIntersectionTypes = false) {
       : "any";
     if (field.relation.type === "many") type += "[]";
   }
+  if (Array.isArray(field.meta?.options?.choices) && type === 'string') {
+    const values = field.meta?.options?.choices
+      .map((choice) => {
+        if (typeof choice === 'string') return `'${choice}'`
+        // primitive strings (active|in_progress|inactive|etc.)
+        if (/^[a-zA-Z0-9-_]+$/i.test(choice?.value)) return `'${choice?.value}'`
+        return false
+      })
+      .filter(Boolean)
+
+    if (values.length) {
+      type = `${values.join(' | ')}`
+    }
+  }
   if (field.schema?.is_nullable) {
     if (field.relation && useIntersectionTypes) {
       type = `(${type}) | null`;
